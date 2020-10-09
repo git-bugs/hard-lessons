@@ -1,19 +1,15 @@
-let money = 300,
-    income = 'freelance',
-    addExpense = 'Inet, Home, Food',
-    deposit = false,
-    mission = 5000,
-    period = 12;
+const num = 266219;
 
-console.log(typeof money);
-console.log(typeof income);
-console.log(typeof deposit);
-console.log(addExpense.length);
-console.log('Период равен ' + period + ' месяцев');
-console.log('Цель зарааботать ' + mission + ' долларов');
-console.log(addExpense.toLocaleLowerCase().split(', '));
+const str = num.toString();
+let result = 1;
 
+for (let i = 0; i<str.length; i++){
+  result *= str[i];
+};
 
-let budgetDay = 400 / 30;
+console.log(result);
 
-console.log(budgetDay);
+result **= 3;
+
+console.log(result.toString()[0]);
+console.log(result.toString()[1]);
