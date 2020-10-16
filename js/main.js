@@ -1,30 +1,21 @@
 'use strict';
 
 
-let arr = ['2322','10','6523','79','44','4957','678'];
+let week = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+let data = new Date();
+let day = data.getDay()-1;
 
-let sort = function(){
-  for (let i = 0; i < arr.length; i++){
-    if (arr[i][0] == 2 || arr[i][0] == 4){
-      console.log(arr[i]);
-    }
-  }
-};
-sort();
+if (day == -1){ day = 6};
 
 
-let simple = function(x){
-  
-  for (let i = 2; i <= x; i++){
-    let f = 1;
-    for (let n = 2; n <= i; n++){
-      if ((i % n == 0) && (i != n)){
-        f = 0;
-      } 
-    }
-    if (f == 1) {
-      console.log(i);
-    }
+for (let  i=0; i<week.length; i++){
+  if ((i == 5 || i == 6) && i !== day){
+    let s = `<span style="font-style: italic;">${week[i]}</span><br>`;
+    document.write(s);
+  } else if (i === day){
+    let s = `<span style="font-weight: 700;">${week[i]}</span><br>`;
+    document.write(s);
+  } else {
+    document.write(`<span>${week[i]}</span><br>`);
   }
 }
-simple(100);
