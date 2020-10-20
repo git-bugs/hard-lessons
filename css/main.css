@@ -1,7 +1,14 @@
 body{
+  display: flex;
   font-size: 30px;
   align-items: center;
+  height: 100vh;
+  justify-content: center;
   text-align: center;
-  text-transform: uppercase;
+  color: red;
+}
+
+h1{
+  margin-bottom: 30px;
 }
 
