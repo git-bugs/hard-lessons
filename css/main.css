@@ -1,0 +1,15 @@
+body{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.element {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background: #ccc;
+  top: 50px;
+  left: 50px;
+}
