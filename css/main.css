@@ -1,0 +1,93 @@
+body{
+  background-image: url(../image/bg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment:fixed;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.container{
+  max-width: 1350px;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+.select{
+  background: rgba(255,255,255,.8);
+  padding-top: 30px;
+  display: flex;
+  border-radius: 2px;
+  padding: 30px 0;
+  margin: 5px 0;
+}
+select{
+  padding: 10px 20px;
+  border: 1px solid rgb(185, 185, 96);
+  border-radius: 2px;
+  width: 300px;
+  margin: 0 auto;
+  color: rgb(197, 50, 50);
+}
+.heroes{
+  display: flex;
+  flex-wrap: wrap;
+  background: rgba(255,255,255,.8);
+  border-radius: 2px;
+  padding: 20px 0 10px 20px;
+}
+.heroes-item{
+  width: 250px;
+  height: 500px;
+  border-radius: 3px;
+  background: rgb(20, 18, 18);
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform .5s;
+  border: 1px solid rgb(185, 185, 96);
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+}
+.heroes-info{
+  padding: 5px 10px;
+  text-align: center;
+  color: rgb(185, 185, 96);
+  background: rgba(36, 33, 34, 0.9);
+  width: 100%;
+}
+.heroes-nme{
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.heroes-realname,.heroes-movie,.heroes-status{
+  margin-bottom: 4px;
+}
+.heroes-info span{
+  color: rgb(197, 50, 50);
+}
+
+@media(max-width: 1512px){
+  .heroes-item{
+    width: 24%;
+  }
+}
+@media(max-width: 1365px){
+  .heroes-item{
+    width: 32%;
+  }
+}
+@media(max-width: 1050px){
+  .heroes-item{
+    width: 48%;
+    background-position: top ;
+  }
+}
+@media(max-width: 720px){
+  .heroes-item{
+    width: 96%;
+    background-position: top ;
+  }
+  select{
+    width: 200px;
+  }
+}
