@@ -1,0 +1,25 @@
+span{
+   margin-left:10px;
+}
+.calc{
+  margin-top: 30px;
+  background: rgb(214, 214, 93);
+  width: 500px;
+  height: 90px;
+  padding: 10px;
+}
+.inner{
+  display: flex;
+  justify-content: space-between;
+}
+#btn{
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+#input2-txt{
+  margin-right: 5px;
+}
+#change-way{
+  margin-left: 8px;
+}
