@@ -118,7 +118,7 @@ body .main .input-cities label {
   width: 100%;
   background: #fff;
   max-height: 300px;
-  overflow: auto;
+  overflow-x: hidden;
 }
 
 .dropdown-lists {
