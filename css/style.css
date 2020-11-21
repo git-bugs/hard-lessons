@@ -221,4 +221,10 @@ body .main .input-cities label {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
 /*# sourceMappingURL=style.css.map */
