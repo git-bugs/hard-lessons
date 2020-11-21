@@ -8,51 +8,64 @@ const selectCities = document.getElementById('select-cities'),
   input = document.getElementById('select-cities'),
   label = document.querySelector('.label'),
   closeBtn = document.querySelector('.close-button'),
-  linkBtn = document.querySelector('.button')
+  linkBtn = document.querySelector('.button'),
+  dataLang = {
+    'RU': 'Россия',
+    'EN': 'United Kingdom',
+    'DE': 'Deutschland'
+  }
 
 let data = {};
 
-const getData = () => {
+const getData = (key) => {
   return fetch('./db_cities.json')
     .then((response) => {
       if (response.status !== 200) {
         throw new Error('error')
       }
-      defaultList.textContent = '';
       return response.json();
     })
-    .then(temp => data = { ...temp })
+    .then(temp => {
+      for (let item in temp) {
+        if (item === key) {
+          data = { ...temp[item] }
+        }
+      }
+      for (let item in data) {
+        if (data[item].country === dataLang[key] && item !== 0) {
+          [data[0], data[item]] = [data[item], data[0]]
+        }
+      }
+      localStorage.setItem('local', JSON.stringify({ ...data }));
+    })
     .catch((error) => console.error(error))
 };
-getData();
 
 const getDefaultList = () => {
   for (let item in data) {
-    data[item].forEach((elem, index) => {
-      elem.cities.sort(function (a, b) {
-        return b.count - a.count;
-      });
-      const countryBlock = document.createElement('div');
-      countryBlock.classList.add('dropdown-lists__countryBlock');
-      countryBlock.innerHTML = `
-        <div class="dropdown-lists__total-line">
-          <div class="dropdown-lists__country">${data[item][index].country}</div>
-          <div class="dropdown-lists__count">${data[item][index].count}</div>
-        </div>
-        <div class="dropdown-lists__line">
-          <div class="dropdown-lists__city">${elem.cities[0].name}</div>
-          <div class="dropdown-lists__count">${elem.cities[0].count}</div>
-        </div>
-        <div class="dropdown-lists__line">
-          <div class="dropdown-lists__city">${elem.cities[1].name}</div>
-          <div class="dropdown-lists__count">${elem.cities[1].count}</div>
-        </div>
-        <div class="dropdown-lists__line">
-          <div class="dropdown-lists__city">${elem.cities[2].name}</div>
-          <div class="dropdown-lists__count">${elem.cities[2].count}</div>
-        </div>`;
-      defaultList.appendChild(countryBlock);
+    data[item].cities.sort(function (a, b) {
+      return b.count - a.count;
     });
+    const countryBlock = document.createElement('div');
+    countryBlock.classList.add('dropdown-lists__countryBlock');
+    countryBlock.innerHTML = `
+        <div class="dropdown-lists__total-line">
+          <div class="dropdown-lists__country">${data[item].country}</div>
+          <div class="dropdown-lists__count">${data[item].count}</div>
+        </div>
+        <div class="dropdown-lists__line">
+          <div class="dropdown-lists__city">${data[item].cities[0].name}</div>
+          <div class="dropdown-lists__count">${data[item].cities[0].count}</div>
+        </div>
+        <div class="dropdown-lists__line">
+          <div class="dropdown-lists__city">${data[item].cities[1].name}</div>
+          <div class="dropdown-lists__count">${data[item].cities[1].count}</div>
+        </div>
+        <div class="dropdown-lists__line">
+          <div class="dropdown-lists__city">${data[item].cities[2].name}</div>
+          <div class="dropdown-lists__count">${data[item].cities[2].count}</div>
+        </div>`;
+    defaultList.appendChild(countryBlock);
   }
 };
 
@@ -60,27 +73,25 @@ const getCities = (target) => {
   const country = target.querySelector('.dropdown-lists__country').textContent;
   input.value = country;
   for (let item in data) {
-    data[item].forEach((elem) => {
-      if (elem.country === country) {
-        dropDown.scrollTop = 0;
-        const countryBlock = document.createElement('div');
-        countryBlock.classList.add('dropdown-lists__countryBlock');
-        countryBlock.innerHTML = `
+    if (data[item].country === country) {
+      dropDown.scrollTop = 0;
+      const countryBlock = document.createElement('div');
+      countryBlock.classList.add('dropdown-lists__countryBlock');
+      countryBlock.innerHTML = `
             <div class="dropdown-lists__total-line">
-              <div class="dropdown-lists__country">${elem.country}</div>
-              <div class="dropdown-lists__count">${elem.count}</div>
+              <div class="dropdown-lists__country">${data[item].country}</div>
+              <div class="dropdown-lists__count">${data[item].count}</div>
             </div>`;
-        selectList.append(countryBlock);
-        elem.cities.forEach(item => {
-          const cityBlock = document.createElement('div');
-          cityBlock.classList.add('dropdown-lists__line');
-          cityBlock.innerHTML = `
+      selectList.append(countryBlock);
+      data[item].cities.forEach(item => {
+        const cityBlock = document.createElement('div');
+        cityBlock.classList.add('dropdown-lists__line');
+        cityBlock.innerHTML = `
             <div class="dropdown-lists__city">${item.name}</div>
             <div class="dropdown-lists__count">${item.count}</div>`;
-          countryBlock.append(cityBlock);
-        });
-      }
-    });
+        countryBlock.append(cityBlock);
+      });
+    }
   }
   selectList.style.display = 'block';
   let count = 0;
@@ -94,31 +105,27 @@ const getCities = (target) => {
 
 const getCityLink = (target) => {
   for (let item in data) {
-    data[item].forEach((elem) => {
-      const { cities } = elem;
-      cities.forEach(item => {
-        if (item.name === target) {
-          linkBtn.disabled = false;
-          linkBtn.href = item.link;
-        }
-      })
+    const { cities } = data[item];
+    data[item].cities.forEach(item => {
+      if (item.name === target) {
+        linkBtn.disabled = false;
+        linkBtn.href = item.link;
+      }
     })
   }
 };
 
 const searchCity = (reg) => {
   for (let item in data) {
-    data[item].forEach((elem) => {
-      elem.cities.forEach(item => {
-        if (item.name.match(reg)) {
-          const cityBlock = document.createElement('div');
-          cityBlock.classList.add('dropdown-lists__line');
-          cityBlock.innerHTML = `
-                <div class="dropdown-lists__city">${item.name}</div>
-                <div class="dropdown-lists__count">${elem.country}</div>`;
-          autocompleteList.append(cityBlock);
-        }
-      });
+    data[item].cities.forEach(elem => {
+      if (elem.name.match(reg)) {
+        const cityBlock = document.createElement('div');
+        cityBlock.classList.add('dropdown-lists__line');
+        cityBlock.innerHTML = `
+          <div class="dropdown-lists__city">${elem.name}</div>
+          <div class="dropdown-lists__count">${elem.country}</div>`;
+        autocompleteList.append(cityBlock);
+      }
     });
   }
   if (!autocompleteList.textContent) {
@@ -143,6 +150,17 @@ const listBackAnimate = () => {
 selectCities.addEventListener('blur', () => {
   if (!input.value) label.style.display = 'block';
 });
+
+const getLocal = () => {
+  if (!document.cookie) {
+    const lang = prompt('Введите локализацию (RU,EN,DE)');
+    document.cookie = `key=${lang}`
+    const key = document.cookie.split('=')[1].toUpperCase();
+    getData(key);
+  }
+  data = { ...JSON.parse(localStorage.getItem('local')) }
+};
+getLocal();
 
 document.body.addEventListener('click', (event) => {
   let target = event.target;
@@ -192,3 +210,4 @@ input.addEventListener('input', () => {
     searchCity(reg);
   }
 })
+
